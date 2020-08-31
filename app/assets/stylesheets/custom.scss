@@ -1,0 +1,71 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+/* 共通 */
+.body-common {
+  padding-top: 60px;
+}
+
+// section {
+//   overflow: auto;
+// }
+// 要否未確認もの
+
+.textarea-common {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+// .center h1 {
+//   margin-bottom: 10px;
+// }
+// 要否未確認もの
+
+/* タイポグラフィ */
+.headline {
+  text-align: center;
+}
+
+.headline--one {
+  letter-spacing: -2px;
+}
+
+.headline--two {
+  color: #777;
+  font-size: 1.2em;
+  letter-spacing: -1px;
+}
+
+.paragraph {
+  line-height: 1.7em;
+}
+
+/* 共通ヘッダ */
+.logo {
+  color: #fff;
+  float: left;
+  font-size: 1.7em;
+  font-weight: bold;
+  letter-spacing: -1px;
+  margin-right: 10px;
+  padding-top: 9px;
+}
+
+// #header {
+//   background-color: teal;
+// }
+// 要否未確認もの
+
+// #header-list {
+//   color: #fff;
+//   font-weight: bold;
+// }
+// 要否未確認もの
+
+// #header-list:hover {
+//   color: darkgray;
+// }
+// 要否未確認もの

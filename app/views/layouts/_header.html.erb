@@ -5,6 +5,9 @@
       <nav>
         <ul class="nav navbar-nav navbar-right">
           <li><%= link_to "トップへ", root_path %></li>
+          <% if logged_in? %>
+            <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
+          <% end %>
         </ul>
       </nav>
     </div>

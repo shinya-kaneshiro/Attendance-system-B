@@ -1,0 +1,78 @@
+<% provide(:title, @user.name) %>
+
+
+<table class="table table-bordered table-condensed center table-one">
+  <div class="row">
+    <tr>
+      <td class="col-md-4">
+        <div>
+        <%= link_to "←", '#', class: "btn" %>
+        <%= l(@first_day, format: :middle) %>
+        <%= link_to "→", '#', class: "btn" %>
+        </div>
+      </td>
+      <td class="col-md-2">指定勤務時間&emsp;<%= format_basic_info(@user.work_time) %></td>
+      <td class="col-md-4"><%= format_basic_info(@user.basic_time) %>&emsp;基本時間</td>
+      <td class="col-md-2">初日&emsp;<%= l(@first_day, format: :short_zero) %></td>
+    </tr>
+  </div>
+</table>
+
+<table class="table table-bordered table-condensed center">
+  <div class="row">
+    <tr>
+      <td class="col-md-4">所属&emsp;<%= @user.department.present? ? @user.department : "未所属" %></td>
+      <td class="col-md-2">氏名&emsp;<%= @user.name %></td>
+      <td class="col-md-1">コード</td>
+      <td class="col-md-1"><%= @user.id %></td>
+      <td class="col-md-2">出勤日数&emsp;<%= %>日</td>
+      <td class="col-md-2">締め&emsp;<%= l(@last_day, format: :short_zero) %></td>
+    </tr>
+  </div>
+</table>
+
+<%= link_to "勤怠を編集", '#', class: "btn btn-primary pull-left" %>
+
+<table class="table table-bordered table-condensed center">
+  <thead>
+    <tr>
+      <td rowspan="2">日付</td>
+      <td rowspan="2">曜日</td>
+      <td colspan="3">出社</td>
+      <td colspan="3">退社</td>
+      <td rowspan="2">在社時間</td>
+      <td rowspan="2">備考</td>
+    </tr>
+    <tr>
+      <td>時</td>
+      <td>分</td>
+      <td></td>
+      <td>時</td>
+      <td>分</td>
+      <td></td>
+    </tr>
+    <tr>
+  </thead>
+  <tbody>
+    <% @attendances.each do |day| %>
+    <tr>
+      <td><%= l(day.worked_on, format: :short) %></td>
+      <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <td colspan="2"></td>
+    <td colspan="6"></td>
+    <td></td>
+    <td></td>
+  </tfoot>
+</table>

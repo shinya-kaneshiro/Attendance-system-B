@@ -6,9 +6,9 @@
     <tr>
       <td class="col-md-4">
         <div>
-        <%= link_to "←", '#', class: "btn" %>
+        <%= link_to "←", user_path(date: @first_day.prev_month), class: "btn" %>
         <%= l(@first_day, format: :middle) %>
-        <%= link_to "→", '#', class: "btn" %>
+        <%= link_to "→", user_path(date: @first_day.next_month), class: "btn" %>
         </div>
       </td>
       <td class="col-md-2">指定勤務時間&emsp;<%= format_basic_info(@user.work_time) %></td>
@@ -25,7 +25,7 @@
       <td class="col-md-2">氏名&emsp;<%= @user.name %></td>
       <td class="col-md-1">コード</td>
       <td class="col-md-1"><%= @user.id %></td>
-      <td class="col-md-2">出勤日数&emsp;<%= %>日</td>
+      <td class="col-md-2">出勤日数&emsp;<%= @worked_sum %>日</td>
       <td class="col-md-2">締め&emsp;<%= l(@last_day, format: :short_zero) %></td>
     </tr>
   </div>
@@ -58,11 +58,15 @@
     <tr>
       <td><%= l(day.worked_on, format: :short) %></td>
       <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%= day.started_at.hour if day.started_at.present? %></td>
+      <td><%= day.started_at.min if day.started_at.present? %></td>
+      <td>
+      <% if btn_text = attendance_state(day) %>
+        <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+      <% end %>
+      </td>
+      <td><%= day.finished_at.hour if day.finished_at.present? %></td>
+      <td><%= day.finished_at.min if day.finished_at.present? %></td>
       <td></td>
       <td></td>
       <td></td>

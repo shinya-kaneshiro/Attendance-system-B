@@ -11,17 +11,19 @@ class ApplicationController < ActionController::Base
       @user = User.find(params[:id])
     end
   
-  # ページ出力前に、一ヵ月分のデータの存在を確認・セットする。
   def set_one_month
-    @first_day = Date.current.beginning_of_month
+    @first_day = params[:date].nil? ?
+    Date.current.beginning_of_month : params[:date].to_date
     @last_day = @first_day.end_of_month
     one_month = [*@first_day..@last_day]
-    @attendances = @user.attendances.where(worked_on: @first_day..@last_day)
-    
+  
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+  
     unless one_month.count == @attendances.count
       ActiveRecord::Base.transaction do
         one_month.each { |day| @user.attendances.create!(worked_on: day) }
       end
+      @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     end
   
   rescue ActiveRecord::RecordInvalid

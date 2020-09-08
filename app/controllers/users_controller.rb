@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :show, :update]
+  before_action :set_user, only: [:edit, :show, :update, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
   
   def index
@@ -36,9 +36,25 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  def edit_basic_info
+  end
+  
+  def update_basic_info
+    if @user.update_attributes(basic_info_params)
+      flash[:success] = "基本情報を更新しました。"
+      redirect_to edit_basic_info_user_path
+    else
+      render :edit_basic_info
+    end
+  end
     
   private
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
+    end
+    
+    def basic_info_params
+      params.require(:user).permit(:work_time, :basic_time)
     end
 end

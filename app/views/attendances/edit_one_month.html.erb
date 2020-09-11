@@ -1,0 +1,46 @@
+<% provide(:title, @user.name) %>
+<h1 class="headline headline-one">勤怠編集画面</h1>
+
+<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day), local: true, method: :patch) do |f| %>
+  <table class="table table-bordered table-condensed center">
+    <thead>
+      <div class="row">
+        <tr>
+          <td class="col-md-1">日付</td>
+          <td class="col-md-1">曜日</td>
+          <td class="col-md-2">出社</td>
+          <td class="col-md-2">退社</td>
+          <td class="col-md-1">在社時間</td>
+          <td class="col-md-2">備考</td>
+          <td class="col-md-1">残業指示</td>
+          <td class="col-md-1">指示者</td>
+        </tr>
+      </div>
+    </thead>
+    <tbody>
+      <% @attendances.each do |day| %>
+        <%= f.fields_for "attendances[]", day do |attendance| %>
+          <tr>
+            <td><%= l(day.worked_on, format: :short) %></td>
+            <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+            <td><%= attendance.time_field :started_at, class: "form-control" %></td>
+            <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+            <td>
+              <% if day.started_at.present? && day.finished_at.present? %>
+                <%= working_times(day.started_at, day.finished_at) %>
+              <% end %>
+            </td>
+            <td><%= attendance.text_field :note, class: "form-control" %></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <div class="center">
+    <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-primary btn-lg" %>
+    <%= f.submit "編集を保存する", class: "btn btn-lg btn-primary" %>
+  </div>
+<% end %>

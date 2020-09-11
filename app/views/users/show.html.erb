@@ -31,7 +31,7 @@
   </div>
 </table>
 
-<%= link_to "勤怠を編集", '#', class: "btn btn-primary pull-left" %>
+<%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary pull-left" %>
 
 <table class="table table-bordered table-condensed center">
   <thead>
@@ -74,7 +74,7 @@
         <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
       <% end %>
       </td>
-      <td></td>
+      <td><%= day.note %></td>
     </tr>
     <% end %>
   </tbody>

@@ -10,7 +10,40 @@ class ApplicationController < ActionController::Base
     def set_user
       @user = User.find(params[:id])
     end
-  
+    
+    # ログイン済みのユーザーか確認する。
+    def logged_in_user
+      unless logged_in?
+        store_location
+        flash[:danger] = "ログインしてください。"
+        redirect_to login_url
+      end
+    end
+    
+    # アクセスしたユーザーが現在ログインしているユーザーか確認する。
+    def correct_user
+      @user = User.find(params[:id])
+      flash[:danger] = "アクセス権限がありません。"
+      redirect_to(root_url) unless current_user?(@user)
+    end
+    
+    # 管理権限保有者、またはログインユーザー本人であるか確認する。
+    def admin_or_correct_user
+      @user = User.find(params[:id]) if @user.blank?
+      unless current_user?(@user) || current_user.admin?
+        flash[:danger] = "編集権限がありません。"
+        redirect_to(root_url)
+      end  
+    end
+    
+    # 管理者権限を保有しているか確認する。
+    def admin_user
+      unless current_user.admin?
+        flash[:danger] = "アクセス権限がありません。"
+        redirect_to root_url
+      end
+    end
+
   # ページ出力前に1ヶ月分のデータの存在を確認・セットする。
   def set_one_month
     @first_day = params[:date].nil? ?

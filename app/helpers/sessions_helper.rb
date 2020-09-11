@@ -43,4 +43,14 @@ module SessionsHelper
   def logged_in?
     !current_user.nil?
   end
+  
+    # アクセスしようとしたURLを記憶します。
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  # 渡されたユーザーがログイン済みのユーザーであればtrueを返します。
+  def current_user?(user)
+    user == current_user
+  end
 end

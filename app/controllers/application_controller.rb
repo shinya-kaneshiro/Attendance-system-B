@@ -23,8 +23,10 @@ class ApplicationController < ActionController::Base
     # アクセスしたユーザーが現在ログインしているユーザーか確認する。
     def correct_user
       @user = User.find(params[:id])
-      flash[:danger] = "アクセス権限がありません。"
-      redirect_to(root_url) unless current_user?(@user)
+      unless current_user?(@user)
+        flash[:danger] = "アクセス権限がありません。"
+        redirect_to(root_url)
+      end
     end
     
     # 管理権限保有者、またはログインユーザー本人であるか確認する。

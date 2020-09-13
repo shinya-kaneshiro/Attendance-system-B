@@ -12,6 +12,11 @@
       <%= f.label :basic_time, "基本勤務時間", class: "label-basic-info" %>
       <%= f.time_field :basic_time, class: 'form-control' %>
       
+      <%= f.label :all_user, class: "checkbox inline", for: "all_user" do %>
+        <%= f.check_box :all_user %>
+        <span>全ユーザを編集対象にする。</span>
+      <% end %>
+      
       <%= f.submit "編集", class: "btn btn-primary btn-block btn-login" %>
     <% end %>
   </div>

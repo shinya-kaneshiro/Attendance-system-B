@@ -31,7 +31,12 @@ class ApplicationController < ActionController::Base
     
     # 管理権限保有者、またはログインユーザー本人であるか確認する。
     def admin_or_correct_user
-      @user = User.find(params[:id]) if @user.blank?
+      active_controller = controller_name
+      if active_controller == "users"
+        @user = User.find(params[:id]) if @user.blank?
+      elsif active_controller == "attendances"
+        @user = User.find(params[:user_id]) if @user.blank?
+      end
       unless current_user?(@user) || current_user.admin?
         flash[:danger] = "編集権限がありません。"
         redirect_to(root_url)

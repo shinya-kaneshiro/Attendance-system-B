@@ -30,9 +30,18 @@ class AttendancesController < ApplicationController
   
   def update_one_month
     ActiveRecord::Base.transaction do
+      @user = User.find(params[:id])
       attendances_params.each do |id, item|
+        user_attendance = @user.attendances.find(id)
+        item_finished_at = item[:finished_at]
         attendance = Attendance.find(id)
+        if user_attendance.finished_at && item_finished_at.blank?
+          attendance.update_attributes!(started_at: "2020-09-12 08:00:00", finished_at: "2020-09-12 07:59:00")
+        end
         attendance.update_attributes!(item)
+        # 元のコード
+        # attendance = Attendance.find(id)
+        # attendance.update_attributes!(item)
       end
     end
     flash[:success] = "1ヵ月分の勤怠情報を更新しました。"

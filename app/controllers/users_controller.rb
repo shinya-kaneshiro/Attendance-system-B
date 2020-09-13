@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "新規登録に成功しました。"
-      # redirect_to @user
+      redirect_to user_path @user
     else
       render :new
     end
@@ -45,11 +45,20 @@ class UsersController < ApplicationController
   end
   
   def update_basic_info
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
+    if params[:user][:all_user] == "1"
+      users = User.all
+      users.each do |user|
+        user.update_attributes(basic_info_params)
+      end
+      flash[:success] = "全ユーザーの基本情報を更新しました。"
       redirect_to edit_basic_info_user_path
     else
-      render :edit_basic_info
+      if @user.update_attributes(basic_info_params)
+        flash[:success] = "基本情報を更新しました。"
+        redirect_to edit_basic_info_user_path
+      else
+        render :edit_basic_info
+      end
     end
   end
     

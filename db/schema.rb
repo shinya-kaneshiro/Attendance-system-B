@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20200905173241) do
     t.datetime "updated_at", null: false
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.datetime "basic_time", default: "2020-09-05 08:00:00"
-    t.datetime "work_time", default: "2020-09-05 07:30:00"
+    t.datetime "basic_time", default: "2020-09-13 08:00:00"
+    t.datetime "work_time", default: "2020-09-13 07:30:00"
   end
 
 end

@@ -54,10 +54,28 @@
   padding-top: 9px;
 }
 
+/* 勤怠表示・編集共通 */
+.wday6 {
+  color: blue;
+}
+
+.wday0 {
+  color: red;
+}
+
 /* 勤怠表示画面 */
 .table-one {
   margin-bottom: -1px;
 }
+
+/* 基本情報の修正画面*/
+.checkbox-basic-time {
+  margin-left: 20px;
+    span {
+    font-weight: normal;
+  }
+}
+
 
 // #header {
 //   background-color: teal;

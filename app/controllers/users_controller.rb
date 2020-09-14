@@ -8,6 +8,13 @@ class UsersController < ApplicationController
   
   def index
     @users = User.paginate(page: params[:page])
+    @search_users = User.all.page(params[:page]).search(params[:search])
+    if params[:search] && @search_users.count == 0
+      flash.now[:info] = "検索ワードに一致するユーザーは存在しません。"
+    elsif params[:search].blank?
+      @search_users = User.none
+      flash.now[:danger] = "検索ワードを入力してください。"
+    end
   end
   
   def create
@@ -61,7 +68,7 @@ class UsersController < ApplicationController
       end
     end
   end
-    
+  
   private
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)

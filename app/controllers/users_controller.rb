@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :show, :update, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [:edit, :show, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :logged_in_user, only: [:index, :edit, :show, :update, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: [:index, :edit_basic_info, :update_basic_info]
+  before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   before_action :admin_or_correct_user, only: [:show]
   before_action :set_one_month, only: :show
   
@@ -11,6 +11,8 @@ class UsersController < ApplicationController
     @search_users = User.all.page(params[:page]).search(params[:search])
     if params[:search] && @search_users.count == 0
       flash.now[:info] = "検索ワードに一致するユーザーは存在しません。"
+    elsif params[:search].nil?
+      @search_users = User.none
     elsif params[:search].blank?
       @search_users = User.none
       flash.now[:danger] = "検索ワードを入力してください。"
@@ -46,6 +48,12 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+  
+  def destroy
+    @user.destroy
+    flash[:success] = "#{@user.name}のデータを削除しました。"
+    redirect_to users_path
   end
   
   def edit_basic_info

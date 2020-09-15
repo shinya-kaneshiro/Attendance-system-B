@@ -16,12 +16,12 @@ class UsersController < ApplicationController
     @users = User.paginate(page: params[:page], per_page: 15)
     @search_users = User.all.page(params[:page]).search(params[:search])
     if params[:search] && @search_users.count == 0
-      flash.now[:info] = "検索ワードに一致するユーザーは存在しません。"
+      flash.now[:info] = "検索ワード「#{params[:search]}」に一致するユーザーは存在しません。"
     elsif params[:search].nil?
       @search_users = User.none
     elsif params[:search].blank?
       @search_users = User.none
-      flash.now[:danger] = "検索ワードを入力してください。"
+      flash.now[:info] = "検索ワードを入力してください。"
     end
   end
   

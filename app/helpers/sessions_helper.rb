@@ -1,6 +1,6 @@
 module SessionsHelper
 
-  # ログイン情報を保有する  
+  # ログイン情報を保有する
   def log_in(user)
     session[:user_id] = user.id
   end

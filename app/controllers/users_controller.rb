@@ -1,13 +1,19 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :show, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :logged_in_user, only: [:index, :edit, :show, :update, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [
+                                  :edit, :show, :update, :destroy,
+                                  :edit_basic_info, :update_basic_info
+                                 ]
+  before_action :logged_in_user, only: [
+                                        :index, :edit, :show, :update,
+                                        :edit_basic_info, :update_basic_info
+                                       ]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :admin_or_correct_user, only: [:show]
+  before_action :admin_or_correct_user, only: :show
   before_action :set_one_month, only: :show
   
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.paginate(page: params[:page], per_page: 15)
     @search_users = User.all.page(params[:page]).search(params[:search])
     if params[:search] && @search_users.count == 0
       flash.now[:info] = "検索ワードに一致するユーザーは存在しません。"

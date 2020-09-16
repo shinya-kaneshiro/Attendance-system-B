@@ -34,10 +34,13 @@ class AttendancesController < ApplicationController
       attendances_params.each do |id, item|
         user_attendance = @user.attendances.find(id)
         item_started_at = item[:started_at]
+        item_finished_at = item[:finished_at]
         attendance = Attendance.find(id)
         if user_attendance.started_at.blank? && !item_started_at.blank?
-          attendance.started_at = item_started_at
-          attendance.save!(context: :started_only_edit)
+          if item_finished_at.blank?
+            attendance.started_at = item_started_at
+            attendance.save!(context: :started_only_edit)
+          end
         end
         attendance.update_attributes!(item)
         

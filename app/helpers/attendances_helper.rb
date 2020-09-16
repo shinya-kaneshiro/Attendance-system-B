@@ -28,11 +28,11 @@ module AttendancesHelper
   
   # 勤怠表示画面の時刻表示（分）を15分単位にする。
   def fifteen_minutes_conversion(time)
-    if time < 14
+    if time <= 14
       0
-    elsif time < 29
+    elsif time <= 29
       15
-    elsif time < 44
+    elsif time <= 44
       30
     else
       45
